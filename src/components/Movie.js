@@ -4,23 +4,30 @@ import { Link, useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Movie = (props) => {
-  const { addToFavorites } = props;
+  const { setMovies,movies } = props;
+  let arr=movies;
+  console.log(setMovies,movies)
 
   const [movie, setMovie] = useState("");
 
   const { id } = useParams();
   const { push } = useHistory();
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:9000/api/movies/${id}`)
-      .then((res) => {
-        setMovie(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }, [id]);
+  
+  const sil=()=>{
+    
+
+   
+    axios.delete(`http://localhost:9000/api/movies/${id}`)
+    .then(res => {
+      setMovies(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+  }
+  
 
   return (
     <div className="bg-white rounded-md shadow flex-1">
@@ -60,7 +67,7 @@ const Movie = (props) => {
         >
           Edit
         </Link>
-        <button type="button" className="myButton bg-red-600 hover:bg-red-500">
+        <button onClick={sil} type="button" className="myButton bg-red-600 hover:bg-red-500">
           Sil
         </button>
       </div>
